@@ -178,9 +178,13 @@ print("Results for all groups", stats.f_oneway(cargo_0_passengers_0, cargo_1_pas
 # 6. Let's do the two-way ANOVA tests.
 # Find F and P values, the sum_sq, mean_sq and df using two-way analysis of variance
 # cargo_count+passengers_count
-expr_lm = ols('total ~ cargo_count+passengers_count', data=df_cleaned).fit()
+expr_lm = ols('total ~ cargo_count:passengers_count', data=df_cleaned).fit()
 table_1 = sm.stats.anova_lm(expr_lm, type=2)
 print(table_1)
+
+expr_lm = ols('total ~ cargo_count*passengers_count', data=df_cleaned).fit()
+table_2 = sm.stats.anova_lm(expr_lm, type=2)
+print(table_2)
 # Intermediate conclusions:
 # sum_sq for Counts is SSB (2190384, 31146.31)
 # sum_sq for Residual is SSW (232344100)
@@ -189,8 +193,8 @@ print(table_1)
 # Passengers count not make significant difference
 
 # cargo_count+status_id
-expr_lm = ols('total ~ cargo_count+status_id', data=df_cleaned).fit()
-table_2 = sm.stats.anova_lm(expr_lm, type=2)
-print(table_2)
+expr_lm = ols('total ~ cargo_count*status_id', data=df_cleaned).fit()
+table_3 = sm.stats.anova_lm(expr_lm, type=2)
+print(table_3)
 # Intermediate conclusions:
 # cargo_count and status_id have strong affects
