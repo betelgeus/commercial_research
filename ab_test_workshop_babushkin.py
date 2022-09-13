@@ -1,8 +1,10 @@
 # Import libraries
 import numpy as np
 import scipy.stats as stats
-from scipy.stats import ttest_ind
 import matplotlib.pyplot as plt
+import seaborn as sns
+from scipy.stats import ttest_ind
+
 
 # ШАГИ
 # 1. Определяем цели, метрики и  размер выборки
@@ -61,8 +63,8 @@ p_value = []
 cnt = 0
 control_sample_means_distribution = []
 treatment_sample_means_distribution = []
-conversion_uplift = 0.0001
-iteration = 100
+conversion_uplift = 0.0003
+iteration = 1000
 for _ in range(iteration):
     control_sample = np.random.normal(pop_prop, st_dev, 1000).tolist()
     treatment_sample = np.random.normal(pop_prop + conversion_uplift, st_dev, 1000).tolist()
@@ -77,6 +79,6 @@ for _ in range(iteration):
 print('AB test probability:', cnt / iteration)
 plt.hist(p_value)
 plt.show()
-plt.plot(control_sample_means_distribution,  color='g')
-plt.plot(treatment_sample_means_distribution, color='b')
+sns.kdeplot(control_sample_means_distribution)
+sns.kdeplot(treatment_sample_means_distribution)
 plt.show()
