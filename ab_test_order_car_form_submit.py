@@ -82,28 +82,29 @@ for _ in range(iteration):
 print('AA test probability:', cnt / iteration)
 
 # 1.3. Expected conversion growth
-# As a result of changing the shape, we want to increase the conversion by 0.1 percentage points. Calculate the required
-# sample size for the AB test. Probability of rejecting a true null hypothesis alpha = 0.05,
+# As a result of changing the shape, we want to increase the conversion by 0.15 percentage points.
+# Calculate the required sample size for the AB test. Probability of rejecting a true null hypothesis alpha = 0.05,
 # probability of accepting an incorrect null hypothesis power = 0.8
-uplift = 0.001
+uplift = 0.0015
 es = sms.proportion_effectsize(control_sample_cr, control_sample_cr + uplift)
 number_of_observations = sms.NormalIndPower().solve_power(es, power=0.8, alpha=0.05, ratio=1)
-print('number_of_observations (alpha=0.05, power=0.8):', round(number_of_observations))
+print('number_of_observations per sample (alpha=0.05, power=0.8):', round(number_of_observations))
 # Conclusion: With current attendance, it will take almost 2 months.
 # Reduce criteria to alpha = 0.10, power = 0.70
 number_of_observations = sms.NormalIndPower().solve_power(es, power=0.7, alpha=0.1, ratio=1)
-print('number_of_observations (alpha = 0.10, power = 0.70):', round(number_of_observations))
+print('number_of_observations per sample (alpha = 0.10, power = 0.70):', round(number_of_observations))
 # Conclusion: now ok, less than a month
 
-# Alternative approach
-users = number_of_observations
+# Alternative method
+users = control_sample_size
 basic_conversion_rate = control_sample_cr
 margin_of_error = 1.96 * ((basic_conversion_rate * (1 - basic_conversion_rate)) / users) ** 0.5
 lover_value = (basic_conversion_rate - margin_of_error)
 upper_value = (basic_conversion_rate + margin_of_error)
 print('margin_of_error:', margin_of_error, 'lover_value:', lover_value, 'upper_value:', upper_value)
 print(lover_value / basic_conversion_rate * 100)
-acceptable_margin_of_error = 0.001
+# Example data
+acceptable_margin_of_error = 0.0015
 minimum_detectable_effect = acceptable_margin_of_error
 sample_size = basic_conversion_rate * (1 - basic_conversion_rate) * (1.96 / acceptable_margin_of_error) ** 2
 # Formula considering power
