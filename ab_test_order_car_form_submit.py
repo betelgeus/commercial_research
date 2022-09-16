@@ -119,6 +119,8 @@ control_sample_orders = control_sample_size * control_sample_cr
 treatment_sample_cr = 0.0077
 treatment_sample_size = 30483
 treatment_sample_orders = treatment_sample_size * treatment_sample_cr
+print(control_sample_orders)
+print(treatment_sample_orders)
 
 # 3. Run tests
 # proportions_ztest(group A count of orders, group B count of orders, group A users, group B users)
@@ -128,4 +130,3 @@ print('p_value_z:', p_value_z[1])
 # Conclusion: p-value = 3.8%. Hypothetically, one can reject H0 and conclude that there is a difference in conversion,
 # but given the fact that we have significantly reduced the alpha and power tolerance levels,
 # we got an extremely marginal value. We accept H0, changing the form did not give an increase in conversion.
-
